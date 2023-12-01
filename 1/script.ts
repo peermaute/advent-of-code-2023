@@ -51,13 +51,12 @@ const matchRestOfLine = (line: string) => {
 const getResult = (firstResultDigit: string | number, secondResultDigit: string | number) => {
   console.log("First result: " + firstResultDigit);
   console.log("Second result: " + secondResultDigit);
-  const firstResultNumber = typeof firstResultDigit === 'string' ? parseInt(firstResultDigit) : firstResultDigit;
-  const secondResultNumber = typeof secondResultDigit === 'string' ? parseInt(secondResultDigit) : secondResultDigit;
-  return firstResultNumber + secondResultNumber;
+  const resultString = `${firstResultDigit}${secondResultDigit}`;
+  return parseInt(resultString);
 }
 
 let totalResult = 0;
-easyTestInput.forEach((line: string) => { 
+difficultActualInput.forEach((line: string) => { 
   console.log(line);
   const result = getLineValue(line);
   console.log("Result: " + result + "\n")
