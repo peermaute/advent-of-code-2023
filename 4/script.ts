@@ -25,14 +25,7 @@ const getCard = (card: string): Card => {
   };
 };
 
-const partOne = () => {
-  const cards: Card[] = [];
-  difficultActualInput.forEach((card: string) => {
-    console.log(card);
-    const cardObject = getCard(card);
-    cards.push(cardObject);
-    console.log(cardObject);
-  });
+const calculateTotalPoints = (cards: Card[]) => {
   let totalPoints = 0;
   cards.forEach((card) => {
     let cardMatches = 0;
@@ -47,8 +40,17 @@ const partOne = () => {
     totalPoints += cardPoints;
   });
   console.log("TOTAL POINTS: " + totalPoints);
-  //reduce cards to sum up points per card
-  //log it
+};
+
+const partOne = () => {
+  const cards: Card[] = [];
+  difficultActualInput.forEach((card: string) => {
+    console.log(card);
+    const cardObject = getCard(card);
+    cards.push(cardObject);
+    console.log(cardObject);
+  });
+  calculateTotalPoints(cards);
 };
 
 partOne();
