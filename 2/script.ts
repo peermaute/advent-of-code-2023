@@ -56,10 +56,48 @@ const isValidGame = (game: Game) => {
   return true;
 };
 
-let totalValidGameValue = 0;
-difficultActualInput.forEach((line: string) => {
-  const game = getGame(line);
-  console.log(game);
-  if (isValidGame(game)) totalValidGameValue += game.id;
-});
-console.log("TOTAL VALID GAME VALUE: " + totalValidGameValue);
+const getPowerOfSet = (game: Game) => {
+  const { rounds } = game;
+  let highestRed = -1;
+  let highestGreen = -1;
+  let highestBlue = -1;
+  for (const round of rounds) {
+    const { red, green, blue } = round;
+    if (red !== 0 && (highestRed === -1 || red > highestRed)) highestRed = red;
+    if (green !== 0 && (highestGreen === -1 || green > highestGreen))
+      highestGreen = green;
+    if (blue !== 0 && (highestBlue === -1 || blue > highestBlue))
+      highestBlue = blue;
+  }
+  console.log("highest red: " + highestRed);
+  console.log("highest green: " + highestGreen);
+  console.log("highest blue: " + highestBlue);
+  if (highestRed === -1) highestRed = 1;
+  if (highestGreen === -1) highestGreen = 1;
+  if (highestBlue === -1) highestBlue = 1;
+  return highestRed * highestGreen * highestBlue;
+};
+
+const partOne = () => {
+  let totalValidGameValue = 0;
+  difficultActualInput.forEach((line: string) => {
+    const game = getGame(line);
+    console.log(game);
+    if (isValidGame(game)) totalValidGameValue += game.id;
+  });
+  console.log("TOTAL VALID GAME VALUE: " + totalValidGameValue);
+};
+
+const partTwo = () => {
+  let totalPowerOfSet = 0;
+  difficultActualInput.forEach((line: string) => {
+    const game = getGame(line);
+    console.log(game);
+    const powerOfSet = getPowerOfSet(game);
+    console.log("Power of set: " + powerOfSet);
+    totalPowerOfSet += powerOfSet;
+  });
+  console.log("TOTAL POWER OF SET: " + totalPowerOfSet);
+};
+
+partTwo();
