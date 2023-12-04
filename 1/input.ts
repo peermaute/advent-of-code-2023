@@ -1,9 +1,4 @@
-import * as fs from 'fs';
-
-const getLinesFromFile = (path: string) => {
-  const lines = fs.readFileSync(path, 'utf-8');
-  return lines.split('\r\n');
-}
+import { getLinesFromFile } from "../utils/fileUtils";
 
 export const easyTestInput = ["eightwothree"];
 
