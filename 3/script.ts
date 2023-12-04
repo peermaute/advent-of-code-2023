@@ -12,7 +12,7 @@ type Line = {
   symbolIndexes: Set<number>;
 };
 
-const getLine = (lineString: string) => {
+const getLine = (lineString: string, onlySearchForGears: boolean) => {
   const line: Line = { numbers: [], symbolIndexes: new Set<number>() };
   let currentNumberString = "";
   let currentStartIndex = 0;
@@ -28,7 +28,7 @@ const getLine = (lineString: string) => {
       line.numbers.push(number);
       currentNumberString = "";
     }
-    if (char !== ".") line.symbolIndexes.add(i);
+    if (isSymbol(char, onlySearchForGears)) line.symbolIndexes.add(i);
   }
   if (currentNumberString !== "") {
     const number = createNumber(
@@ -39,6 +39,11 @@ const getLine = (lineString: string) => {
     line.numbers.push(number);
   }
   return line;
+};
+
+const isSymbol = (char: string, onlySearchForGears: boolean) => {
+  if (onlySearchForGears) return char === "*";
+  return char !== ".";
 };
 
 const createNumber = (
@@ -131,11 +136,86 @@ const adjacentLineHasSymbolInRange = (
   return false;
 };
 
+const getGearRatioSum = (lines: Line[]) => {
+  let sum = 0;
+  lines.forEach((line, index) => {
+    const previousLine = index > 0 ? lines[index - 1] : null;
+    const nextLine = index < lines.length - 1 ? lines[index + 1] : null;
+    sum += getLineGearRatioSum(line, previousLine, nextLine);
+  });
+  return sum;
+};
+
+const getLineGearRatioSum = (
+  line: Line,
+  previousLine: Line | null,
+  nextLine: Line | null
+) => {
+  let sum = 0;
+  const lineSymbols = line.symbolIndexes;
+  const lineNumbers = line.numbers;
+  const previousLineNumbers = previousLine ? previousLine.numbers : null;
+  const nextLineNumbers = nextLine ? nextLine.numbers : null;
+  line.symbolIndexes.forEach((symbolIndex) => {
+    const gearRatio = getGearRatio(
+      symbolIndex,
+      lineNumbers,
+      previousLineNumbers,
+      nextLineNumbers
+    );
+    if (gearRatio !== -1) {
+      sum += gearRatio;
+    }
+  });
+  return sum;
+};
+
+const getGearRatio = (
+  symbolIndex: number,
+  lineNumbers: Number[],
+  previousLineNumbers: Number[] | null,
+  nextLineNumbers: Number[] | null
+) => {
+  const adjacentNumbers: number[] = [];
+  for (const number of lineNumbers) {
+    if (
+      number.startIndex - 1 === symbolIndex ||
+      number.endIndex === symbolIndex
+    )
+      adjacentNumbers.push(number.number);
+  }
+  if (previousLineNumbers)
+    adjacentNumbers.push(
+      ...getAdjacentNumbersFromAdjacentLine(symbolIndex, previousLineNumbers)
+    );
+  if (nextLineNumbers)
+    adjacentNumbers.push(
+      ...getAdjacentNumbersFromAdjacentLine(symbolIndex, nextLineNumbers)
+    );
+  console.log("adjacent numbers: " + adjacentNumbers);
+  if (adjacentNumbers.length === 2) {
+    return adjacentNumbers[0] * adjacentNumbers[1];
+  }
+  return -1;
+};
+
+const getAdjacentNumbersFromAdjacentLine = (
+  symbolIndex: number,
+  adjacentLineNumbers: Number[]
+) => {
+  const adjacentNumbers: number[] = [];
+  for (const number of adjacentLineNumbers) {
+    if (symbolIndex >= number.startIndex - 1 && symbolIndex <= number.endIndex)
+      adjacentNumbers.push(number.number);
+  }
+  return adjacentNumbers;
+};
+
 const partOne = () => {
   const lines: Line[] = [];
   difficultActualInput.forEach((line: string) => {
     console.log(line);
-    const lineObject = getLine(line);
+    const lineObject = getLine(line, false);
     console.log(lineObject);
     lines.push(lineObject);
   });
@@ -143,4 +223,16 @@ const partOne = () => {
   console.log("Total: " + total);
 };
 
-partOne();
+const partTwo = () => {
+  const lines: Line[] = [];
+  difficultActualInput.forEach((line: string) => {
+    console.log(line);
+    const lineObject = getLine(line, true);
+    console.log(lineObject);
+    lines.push(lineObject);
+  });
+  const gearRatioSum = getGearRatioSum(lines);
+  console.log("Gear ratio sum: " + gearRatioSum);
+};
+
+partTwo();
