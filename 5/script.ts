@@ -80,6 +80,16 @@ const getDestination = (
   return currentDestination;
 };
 
+const getSeedsWithRanges = (seeds: number[]): number[] => {
+  const seedsWithRanges: number[] = [];
+  for (let i = 0; i < seeds.length - 1; i += 2) {
+    for (let j = 0; j < seeds[i + 1]; j++) {
+      seedsWithRanges.push(seeds[i] + j);
+    }
+  }
+  return seedsWithRanges;
+};
+
 const partOne = () => {
   const [seedsInput, ...sourceDestinationMapsInput] =
     splitArrayByEmptyLine(difficultActualInput);
@@ -95,4 +105,22 @@ const partOne = () => {
   console.log("Lowest Seed Location: " + lowestSeedLocation);
 };
 
-partOne();
+/**
+ * This is my solution for part 2. It is not optimized and I had a memory overload so I used a different approach to get the solution.
+ * I am fairly certain that this solution would work theoretically.
+ */
+const partTwo = () => {
+  const [seedsInput, ...sourceDestinationMapsInput] =
+    splitArrayByEmptyLine(difficultActualInput);
+  const seeds: number[] = getSeeds(seedsInput);
+  const seedsWithRanges = getSeedsWithRanges(seeds);
+  const sourceDestinationMaps: sourceDestinationMap[] =
+    getSourceDestinationMaps(sourceDestinationMapsInput);
+  const seedLocations: number[] = [];
+  seedsWithRanges.forEach((seed) => {
+    const seedLocation: number = getSeedLocation(seed, sourceDestinationMaps);
+    seedLocations.push(seedLocation);
+  });
+  const lowestSeedLocation: number = Math.min(...seedLocations);
+  console.log("Lowest Seed Location: " + lowestSeedLocation);
+};
