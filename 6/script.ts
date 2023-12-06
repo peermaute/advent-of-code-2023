@@ -34,6 +34,12 @@ const getWinPossibilities = ({ time, distance }: Game): number[] => {
   return winPossibilities;
 };
 
+const getLongGame = (): Game => {
+  const time = parseInt(readInput(0).reduce((a: string, b) => a + b, ""));
+  const distance = parseInt(readInput(1).reduce((a: string, b) => a + b, ""));
+  return { time, distance };
+};
+
 const partOne = () => {
   const games = getGames();
   let result = 1;
@@ -44,4 +50,10 @@ const partOne = () => {
   console.log("RESULT: " + result);
 };
 
-partOne();
+const partTwo = () => {
+  const game = getLongGame();
+  const winPossobilities = getWinPossibilities(game);
+  console.log("RESULT: " + winPossobilities.length);
+};
+
+partTwo();
