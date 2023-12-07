@@ -1,5 +1,7 @@
 import { splitArrayByEmptyLine } from "../utils/utils";
-import { difficultActualInput } from "./input";
+import { getLinesFromFile } from "../utils/fileUtils";
+
+const difficultActualInput = getLinesFromFile("./input.txt");
 
 type sourceDestinationEntry = {
   destination: number;

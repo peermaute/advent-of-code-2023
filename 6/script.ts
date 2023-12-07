@@ -1,4 +1,6 @@
-import { difficultActualInput } from "../6/input";
+import { getLinesFromFile } from "../utils/fileUtils";
+
+const difficultActualInput = getLinesFromFile("./input.txt");
 
 type Game = {
   time: number;

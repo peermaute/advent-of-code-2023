@@ -1,4 +1,6 @@
-import { easyTestInput, difficultActualInput } from "./input";
+import { getLinesFromFile } from "../utils/fileUtils";
+
+const difficultActualInput = getLinesFromFile("./input.txt");
 
 const RED_TOTAL_CUBES = 12;
 const GREEN_TOTAL_CUBES = 13;

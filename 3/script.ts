@@ -1,5 +1,7 @@
-import { difficultActualInput } from "./input";
 import { isNumber } from "../utils/utils";
+import { getLinesFromFile } from "../utils/fileUtils";
+
+const difficultActualInput = getLinesFromFile("./input.txt");
 
 type Number = {
   number: number;
