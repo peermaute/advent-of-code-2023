@@ -42,6 +42,12 @@ const cardStrengthsPart2: CardStrengths = {
 };
 
 const compareHands = (hand1: Hand, hand2: Hand, isPartOne: boolean): number => {
+  if (
+    (hand1.hand === "JJJJJ" && hand2.hand === "J5JJ5") ||
+    (hand1.hand === "J5JJ5" && hand2.hand === "JJJJJ")
+  ) {
+    console.log("JJJJJ");
+  }
   const hand1Map = getHandMap(hand1.hand, isPartOne);
   const hand2Map = getHandMap(hand2.hand, isPartOne);
   if (hand1Map.size === hand2Map.size) {
@@ -130,12 +136,16 @@ const createBetterHand = (handMap: Map<string, number>) => {
   let highestValue = 0;
   let highestKey = "";
   handMap.forEach((value, key) => {
+    if (key === "J") {
+      return;
+    }
     if (value > highestValue) {
       highestValue = value;
       highestKey = key;
     }
   });
-  handMap.set(highestKey, highestValue + (handMap.get("J") as number));
+  const newValue = highestValue + (handMap.get("J") as number);
+  handMap.set(highestKey, newValue);
   handMap.delete("J");
 };
 
