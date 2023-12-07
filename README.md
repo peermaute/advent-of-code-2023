@@ -4,4 +4,4 @@ This is a repo that contains my solutions for the advent of code event 2023. Che
 
 ## Structure
 
-Each day has its own folder in this repo. To find the solution for a specific day, just go to the respective folder.
+Each day has its own folder under `src/`. To find the solution for a specific day, just go to the respective folder.
