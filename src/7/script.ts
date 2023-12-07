@@ -42,12 +42,6 @@ const cardStrengthsPart2: CardStrengths = {
 };
 
 const compareHands = (hand1: Hand, hand2: Hand, isPartOne: boolean): number => {
-  if (
-    (hand1.hand === "JJJJJ" && hand2.hand === "J5JJ5") ||
-    (hand1.hand === "J5JJ5" && hand2.hand === "JJJJJ")
-  ) {
-    console.log("JJJJJ");
-  }
   const hand1Map = getHandMap(hand1.hand, isPartOne);
   const hand2Map = getHandMap(hand2.hand, isPartOne);
   if (hand1Map.size === hand2Map.size) {
@@ -109,7 +103,6 @@ const compareByPureStrength = (
       return cardStrengths[hand1Card] < cardStrengths[hand2Card] ? -1 : 1;
     }
   }
-  console.log("SHOULD NOT HAPPEN");
   return 0;
 };
 
