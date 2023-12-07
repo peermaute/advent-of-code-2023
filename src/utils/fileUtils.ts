@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import fs from "fs";
 
 export const getLinesFromFile = (path: string) => {
   const lines = fs.readFileSync(path, "utf-8");
