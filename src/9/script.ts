@@ -28,18 +28,28 @@ const allValuesAreEqual = (line: number[]): boolean => {
   return true;
 };
 
-export const partOne = (input: string[]) => {
-  const inputLines = input.map((line) =>
-    line.split(" ").map((n) => parseInt(n))
-  );
+const getResult = (inputLines: number[][]) => {
   let result = 0;
   inputLines.forEach((line) => {
     const nextNumber = getNextNumber(line);
     result += nextNumber;
   });
+  return result;
+};
+
+export const partOne = (input: string[]) => {
+  const inputLines = input.map((line) =>
+    line.split(" ").map((n) => parseInt(n))
+  );
+  const result = getResult(inputLines);
   console.log(result, "result");
 };
 
 export const partTwo = (input: string[]) => {
-  //logic
+  const inputLines = input.map((line) =>
+    line.split(" ").map((n) => parseInt(n))
+  );
+  const reversedInputLines = inputLines.map((line) => line.reverse());
+  const result = getResult(reversedInputLines);
+  console.log(result, "result");
 };
